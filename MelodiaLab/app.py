@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, session
 import database
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "chave_muito_segura"
@@ -14,41 +15,45 @@ usuarios = {
 def index():
     return render_template('index.html')
 
-@app.route('/login') #rota para a página de login
-def login():
-    return render_template('login.html')
-
 @app.route('/home')
 def home():
     return render_template('home.html')
 
 
-# VERFIFICAR O LOGIN
-@app.route('/verificar-login', methods=['POST'])
-def verificar_login():
-# Pegando o que o usuário digitou no campo de entrada de user e senha
-    username = request.form['username']
-    password = request.form['password']
+@app.route('/login', methods=["GET","POST"])
+def login():
+    if request.method=="GET":
+        return render_template('login.html')
 
-    # Verifica se o usuario digitado está na lista e se 
-    # a senha está certa
-    if username in usuarios and usuarios[username] == password:
-        return redirect(url_for('home'))
-    else:
-        # Flash envia mensagem para o front-end
-        flash('Usuário ou senha incorretos', 'danger')
-        return redirect(url_for('login'))
+    verificação=database.login(formulario=request.form)
+    if not verificação:
+        return "Algo deu de errado, tente novamente"
+    
+    session['username']=request.form['username']
+    return redirect(url_for('home'))
 
-@app.route('/cadastro', methods=['POST', 'GET']) #rota para a página de login
+
+@app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
     if request.method == "POST":
         form = request.form
         if database.cadastro(form) == True:
-            return render_template('login.html')  # Se cadastro for bem-sucedido, redireciona para o login
+            return render_template('login.html')
         else:
             return "Ocorreu um erro ao cadastrar usuário"  # Caso contrário, exibe mensagem de erro
     else:
         return render_template('cadastro.html')
+    
+@app.route('/criar-musicas', methods=['POST', 'GET'])
+def criar_musicas():
+    if request.method == "POST":
+        form = request.form
+        if database.cadastro(form) == True:
+            return render_template('home.html')
+        else:
+            return "Ocorreu um erro ao criar uma musica"
+    else:
+        return render_template('musica.html')
 
 # parte principal do
 if __name__ == '__main__':

@@ -24,7 +24,7 @@ def criar_tabelas():
 def cadastro(formulario):
     conexao = conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute("""SELECT COUNT(email) from usuarios WHERE email=?""", (formulario['email'],))
+    cursor.execute("""SELECT COUNT(email) from usuarios WHERE email=?""", (formulario['username'],)) 
     conexao.commit()
     quantidade_de_emails = cursor.fetchone()
     print(quantidade_de_emails)
@@ -36,7 +36,7 @@ def cadastro(formulario):
     senha_criptografada = generate_password_hash(formulario['senha'])
 
     cursor.execute('''INSERT INTO usuarios(email, nome, senha) 
-                   VALUES (?, ?, ?)''', (formulario['email'], formulario['usuario'], senha_criptografada))
+                   VALUES (?, ?, ?)''', (formulario['username'], formulario['email'], senha_criptografada))
     
     conexao.commit()
     return (True)
@@ -45,7 +45,7 @@ def login(formulario):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute('''SELECT COUNT(email) FROM usuarios WHERE email=?''', (formulario['email'],))
+    cursor.execute('''SELECT COUNT(email) FROM usuarios WHERE email=?''', (formulario['username'],))
     conexao.commit()
     
     quantidade_de_emails = cursor.fetchone()
@@ -55,11 +55,11 @@ def login(formulario):
         print("E-mail não cadastrado! Tente novamente")
         return False
     
-    cursor.execute('''SELECT senha FROM usuarios WHERE email=?''', (formulario['email'],))
+    cursor.execute('''SELECT senha FROM usuarios WHERE email=?''', (formulario['username'],))
     conexao.commit()
     senha_criptografada = cursor.fetchone()
   
-    return check_password_hash(senha_criptografada[0], formulario['senha'])
+    return check_password_hash(senha_criptografada[0], formulario['password'])
 
 # PARTE PRINCIPAL DO PROGRAMA
 if __name__ == '__main__':
