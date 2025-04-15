@@ -17,7 +17,9 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    lista_de_musicas = database.mostrar_musica(session['username'])
+    print(lista_de_musicas)
+    return render_template('home.html', musicas = lista_de_musicas)
 
 
 @app.route('/login', methods=["GET","POST"])
@@ -48,12 +50,27 @@ def cadastro():
 def criar_musicas():
     if request.method == "POST":
         form = request.form
-        if database.cadastro(form) == True:
+        if database.criar_musica(nome_musica = form["nome_musica"], nome_compositor = form["nome_compositor"], status = form["status"], letra = form["letra"], email_usuario = session['username'], imagem = form['imagem']) == True:
             return render_template('home.html')
         else:
             return "Ocorreu um erro ao criar uma musica"
     else:
-        return render_template('musica.html')
+        return redirect(url_for('home'))
+    
+@app.route('/home/excluir-musica/<int:id>', methods=['GET'])
+def excluir_musica(id):
+    if database.apagar_musica(id):
+        return redirect(url_for('home'))
+    else:
+        return "Algo deu errado!!"
+
+@app.route('/home/excluir-usuario', methods=['GET'])
+def excluir_usuario():
+    email = session['username']
+    if database.excluir_usuario(email):
+        return redirect(url_for('index'))
+    else:
+        return "Algo deu errado!"
 
 # parte principal do
 if __name__ == '__main__':

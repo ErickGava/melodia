@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação de Música</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+    <link rel="shortcut icon" href="https://static.portaldaindustria.com.br/portaldaindustria/noticias/media/imagem_plugin/shutterstock_uiHrlzJ.jpg" type="image/x-icon">
+</head>
+
+<body class="Musica">
+    <div class="caixa-de-musica">
+        <h2>Edite sua música</h2>
+        <form action="/criar-musicas" method="POST">
+            <p>Nome Da música</p>
+            <input type='text' name='nome_musica' placeholder="Digite o nome da música">
+            <p>Nome Do Compositor</p>
+            <input type='text' name='nome_compositor' placeholder="Digite o nome do compositor">
+            <p>Status Da Musica</p>
+            <input type='text' name='status' placeholder="Digite o status da música">
+            <br>
+            <br>
+            <label for="letra">Letra da Música</label>
+            <br>
+            <br>
+            <textarea id="letra" name="letra" rows="4" cols="50" placeholder="Digite a letra da música"></textarea>
+            <br>
+            <p>Link da Imagem</p>
+            <input type ='text' name="imagem" placeholder="Coloque o link da imagem aqui!">
+            <br>
+            <br>
+            <div class="botoes">
+
+                <button type="submit">Salvar</button>
+                
+            </div>
+        </form>
+    </div>
+    <script src="/static/script.js"></script>
+</body>

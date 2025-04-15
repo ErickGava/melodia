@@ -14,17 +14,20 @@
         <h2>Crie sua música</h2>
         <form action="/criar-musicas" method="POST">
             <p>Nome Da música</p>
-            <input type='text' name='usuario' placeholder="Digite o nome da música">
+            <input type='text' name='nome_musica' placeholder="Digite o nome da música">
             <p>Nome Do Compositor</p>
-            <input type='text' name='email' placeholder="Digite o nome do compositor">
+            <input type='text' name='nome_compositor' placeholder="Digite o nome do compositor">
             <p>Status Da Musica</p>
-            <input type='password' name='senha' placeholder="Digite o status da música">
+            <input type='text' name='status' placeholder="Digite o status da música">
             <br>
             <br>
             <label for="letra">Letra da Música</label>
             <br>
             <br>
             <textarea id="letra" name="letra" rows="4" cols="50" placeholder="Digite a letra da música"></textarea>
+            <br>
+            <p>Link da Imagem</p>
+            <input type ='text' name="imagem" placeholder="Coloque o link da imagem aqui!">
             <br>
             <br>
             <div class="botoes">
