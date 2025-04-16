@@ -26,7 +26,7 @@ def criar_tabelas():
 def cadastro(formulario):
     conexao = conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute("""SELECT COUNT(email) from usuarios WHERE email=?""", (formulario['username'],))
+    cursor.execute("""SELECT COUNT(email) from usuarios WHERE email=?""", (formulario['email'],))
     conexao.commit()
     quantidade_de_emails = cursor.fetchone()
     print(quantidade_de_emails)
@@ -47,7 +47,7 @@ def login(formulario):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
-    cursor.execute('''SELECT COUNT(email) FROM usuarios WHERE email=?''', (formulario['username'],))
+    cursor.execute('''SELECT COUNT(email) FROM usuarios WHERE email=?''', (formulario['email'],))
     conexao.commit()
     
     quantidade_de_emails = cursor.fetchone()
@@ -57,7 +57,7 @@ def login(formulario):
         print("E-mail não cadastrado! Tente novamente")
         return False
     
-    cursor.execute('''SELECT senha FROM usuarios WHERE email=?''', (formulario['username'],))
+    cursor.execute('''SELECT senha FROM usuarios WHERE email=?''', (formulario['email'],))
     conexao.commit()
     senha_criptografada = cursor.fetchone()
   
@@ -95,6 +95,23 @@ def listar_musicas(id):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     cursor.execute('''SELECT * FROM musica WHERE id = ?''',(id,))
+    conexao.commit()
+    cursor.close()
+    return True
+
+def procurar_musicas(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(''' SELECT nome_musica, nome_compositor, status, letra, imagem FROM musica WHERE id = ?''', (id,))
+    conexao.commit()
+    musica = cursor.fetchone()
+    cursor.close()
+    return musica
+
+def editar_musica(id, nome_musica, nome_compositor, status, letra, imagem):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute('''UPDATE musica SET nome_musica = ?, nome_compositor = ?, status = ?, letra = ?, imagem = ? WHERE id = ?''', (nome_musica, nome_compositor, status, letra, imagem, id))
     conexao.commit()
     cursor.close()
     return True

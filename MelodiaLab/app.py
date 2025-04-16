@@ -17,7 +17,7 @@ def index():
 
 @app.route('/home')
 def home():
-    lista_de_musicas = database.mostrar_musica(session['username'])
+    lista_de_musicas = database.mostrar_musica(session['email'])
     print(lista_de_musicas)
     return render_template('home.html', musicas = lista_de_musicas)
 
@@ -31,7 +31,7 @@ def login():
     if not verificação:
         return "Algo deu de errado, tente novamente"
     
-    session['username']=request.form['username']
+    session['email']=request.form['email']
     return redirect(url_for('home'))
 
 
@@ -51,11 +51,11 @@ def criar_musicas():
     if request.method == "POST":
         form = request.form
         if database.criar_musica(nome_musica = form["nome_musica"], nome_compositor = form["nome_compositor"], status = form["status"], letra = form["letra"], email_usuario = session['username'], imagem = form['imagem']) == True:
-            return render_template('home.html')
+            return redirect(url_for('home'))
         else:
             return "Ocorreu um erro ao criar uma musica"
     else:
-        return redirect(url_for('home'))
+        return render_template('musica.html')
     
 @app.route('/home/excluir-musica/<int:id>', methods=['GET'])
 def excluir_musica(id):
@@ -63,6 +63,19 @@ def excluir_musica(id):
         return redirect(url_for('home'))
     else:
         return "Algo deu errado!!"
+    
+@app.route('/home/editar-musica/<int:id>', methods=['POST', 'GET'])
+def editar_musica(id):
+    if request.method == "POST":
+        form = request.form
+        if database.editar_musica(id = id, nome_musica = form["nome_musica"], nome_compositor = form["nome_compositor"], status = form["status"], letra = form["letra"], imagem = form['imagem']) == True:
+            return redirect(url_for('home'))
+        else:
+            return "Algo deu errado!!"
+    else:
+        procurar_musica = database.procurar_musicas(id)
+        print(procurar_musica)
+        return render_template('editar.html', musica = procurar_musica, id=id)
 
 @app.route('/home/excluir-usuario', methods=['GET'])
 def excluir_usuario():

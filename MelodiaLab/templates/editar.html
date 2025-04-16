@@ -12,22 +12,22 @@
 <body class="Musica">
     <div class="caixa-de-musica">
         <h2>Edite sua música</h2>
-        <form action="/criar-musicas" method="POST">
+        <form action="/home/editar-musica/{{id}}" method="POST">
             <p>Nome Da música</p>
-            <input type='text' name='nome_musica' placeholder="Digite o nome da música">
+            <input type='text' name='nome_musica' placeholder="Digite o nome da música" value="{{musica[0]}}">
             <p>Nome Do Compositor</p>
-            <input type='text' name='nome_compositor' placeholder="Digite o nome do compositor">
+            <input type='text' name='nome_compositor' placeholder="Digite o nome do compositor" value="{{musica[1]}}">
             <p>Status Da Musica</p>
-            <input type='text' name='status' placeholder="Digite o status da música">
+            <input type='text' name='status' placeholder="Digite o status da música" value="{{musica[2]}}">
             <br>
             <br>
             <label for="letra">Letra da Música</label>
             <br>
             <br>
-            <textarea id="letra" name="letra" rows="4" cols="50" placeholder="Digite a letra da música"></textarea>
+            <textarea id="letra" name="letra" rows="4" cols="50" placeholder="Digite a letra da música">{{musica[3]}}</textarea>
             <br>
             <p>Link da Imagem</p>
-            <input type ='text' name="imagem" placeholder="Coloque o link da imagem aqui!">
+            <input type ='text' name="imagem" placeholder="Coloque o link da imagem aqui!" value="{{musica[4]}}">
             <br>
             <br>
             <div class="botoes">

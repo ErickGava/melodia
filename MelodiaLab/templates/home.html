@@ -20,11 +20,12 @@
         <div class="card">
             <img src="/static/img/capa1.jpeg" alt="Capa do Projeto" class="cover">
             <div class="card-content">
-              <h3>{{musica[3]}}</h3>
+              <h3>{{musica[1]}}</h3>
               <p>Artista: {{musica[2]}}</p>
-              <p>Status: {{musica[4]}}</p>
-              <p>Letra: {{musica[1]}}</p>
+              <p>Status: {{musica[3]}}</p>
+              <p>Letra: {{musica[4]}}</p>
             </div>
+            <input type="button" onclick="window.location.href='/home/editar-musica/{{musica[0]}}'" value="editar">
             <input type="button" onclick="window.location.href='/home/excluir-musica/{{musica[0]}}'" value = "excluir">
           </div>
         </div>
